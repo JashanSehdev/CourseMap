@@ -38,4 +38,26 @@ public class Student extends User {
     }
 
 
+    void seeAssignmentByName(Course c,String name){
+        if(c!=null){
+            Course.Assignment a = c.getAssignmentByName(name);
+            a.show();
+        }
+    }
+    void writeAnswer(Course c , String assignment_name, String answer){
+        Course.Assignment a = c.getAssignmentByName(assignment_name);
+        a.writeAnswer(answer,this);
+        System.out.println("Assignment Submitted");
+    }
+
+    Course getCourseByName(String name){
+        Course c = enrolled_course.get(name);
+        if(c==null){
+            System.out.println("No Course found");
+            return null;
+        }
+        return c;
+    }
+
+
 }

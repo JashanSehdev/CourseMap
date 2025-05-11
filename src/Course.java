@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -21,6 +22,10 @@ public class Course {
         System.out.println("Course name: "+course_name);
         System.out.println("Course instructor: "+ course_instructor);
         System.out.println("Enrolled Student:-");
+        showAllAssignments();
+    }
+
+    void showAllAssignments(){
         int i=1;
         for (Map.Entry<String,Student> e : enrolled.entrySet()){
             System.out.println(i+". "+e.getValue().username);
@@ -68,25 +73,70 @@ public class Course {
         String status;
         LocalDate date = LocalDate.now();
         LocalDate due;
-        Map <String,SubmittedAssignment> submitted_assignment;
+        Map <String,SubmittedAssignment> submitted_assignment;// key = Student name, value = Submitted Assignment
+
         Assignment(String name, String question, LocalDate due){
             this.name = name;
             this.question = question;
             this.due = due;
             this.date = LocalDate.now();
+            submitted_assignment = new HashMap<>();
+        }
+
+        void show(){
+            System.out.println("Assignment name: "+name);
+            System.out.println("Assignment Date: "+date);
+            System.out.println(("Due Date "+due));
+            System.out.println("Question:-");
+            System.out.println(question);
+        }
+        void show( String any){
+            System.out.println("Assignment name: "+name);
+            System.out.println("Assignment Date: "+date);
+            System.out.println(("Due Date "+due));
+            System.out.println("Question:-");
+            System.out.println(question);
+            System.out.println("No. of Submissions: "+submitted_assignment.size());
+            System.out.println("Name   Submission Date    Answers    Grade");
+            for(Map.Entry<String,SubmittedAssignment> e: submitted_assignment.entrySet()){
+                e.getValue().show();
+            }
+
+        }
+
+        void writeAnswer(String answer,Student S){
+            SubmittedAssignment sa = new SubmittedAssignment(answer,S);
+            submitted_assignment.put(sa.student.username,sa);
         }
 
         class SubmittedAssignment{
             String answer;
             Student student;
             LocalDate submit;
-            String grade;
+            String grade="nil";
 
-            void writeAnswer(String answer){
-                if(answer.isEmpty()) System.out.println("No Word detected");
+            SubmittedAssignment(String answer,Student S){
                 this.answer = answer;
-                System.out.println("Assignment has been Submitted");
+                this.student = S;
+                this.submit = LocalDate.now();
             }
+
+            void show(){
+                System.out.println(student.username+"\t"+submit+"\t  "+answer+" ["+grade+"].");
+            }
+            void show(String any){
+                System.out.println("Student Name: "+student.username);
+                System.out.println("Question: "+question);
+                System.out.println("Answer:- ");
+                System.out.println(answer);
+                System.out.println("grades: " +grade);
+            }
+
+            void setGrade(String grade){
+                this.grade = grade;
+            }
+
+
 
         }
     }

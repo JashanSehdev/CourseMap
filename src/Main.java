@@ -29,14 +29,17 @@ public class Main {
 //        instructor.show();
 //        manager.show();
 
+        instructor.createAssignment("DSA","assignment 1","Who is your dad?",LocalDate.of(2025,5,27));
         Student student  = (Student) st;
 
-//        student.show();
         student.enroll("DSA");
-        student.show();
 
-        instructor.removeCourse("DSA");
-        student.show();
+
+        Course c = student.getCourseByName("DSA");
+
+        student.seeAssignmentByName(c,"assignment 1");
+        student.writeAnswer(c,"assignment 1","My answer is Simple");
+        c.getAssignmentByName("assignment 1").show("teacher");
 
         //instructor.createAssignment("DSA","assignment 1","What is the Universe", LocalDate.of(2025,5,27));
 
