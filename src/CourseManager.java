@@ -7,6 +7,11 @@ public class CourseManager {
     }
 
     Course createCourse (String name){
+        for(Course c: courses){
+            if(c.course_name.equalsIgnoreCase(name)){
+                System.out.println("Course with same name already exists!");
+            }
+        }
         Course c  = new Course(name);
         courses.add(c);
         return c;
@@ -27,6 +32,7 @@ public class CourseManager {
         int i=1;
         for (Course c: courses){
             System.out.println(i+". "+ c.course_name + " by "+c.course_instructor);
+            i++;
         }
     }
 

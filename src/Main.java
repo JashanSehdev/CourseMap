@@ -78,9 +78,11 @@ public class Main {
                     "3. Remove Course\n"+
                     "4. Create Assignment\n"+
                     "5. remove Assignment\n"+
-                    "6. Evaluate Assignment\n"+
-                    "7. Show Student Score\n"+
-                    "8. Log out";
+                    "6. Show Assignments\n"+
+                    "7. show single assignment data\n"+
+                    "8. Evaluate Assignment\n"+
+                    "9. Show Student Score\n"+
+                    "10 Log out";
             String choose = ask(sc, question);
             switch(choose){
                 case "1":
@@ -105,6 +107,7 @@ public class Main {
                     int month = sc.nextInt();
                     System.out.println("Date?");
                     int date = sc.nextInt();
+                    sc.nextLine();
                     i.createAssignment(course_name,assign_name,Question,LocalDate.of(year,month,date));
                     break;
                     // Add exception handling
@@ -113,19 +116,30 @@ public class Main {
                     assign_name = ask(sc,"assignment name?");
                     i.removeAssignment(course_name,assign_name);
                     break;
-
                 case "6":
+                    course_name = ask(sc,"Course name?");
+                    i.showAssignments(course_name);
+                    break;
+
+                case "7":
                     course_name = ask(sc,"Course name?");
                     assign_name = ask(sc,"assignment name?");
                     Course c = i.getCourseByName(course_name);
+                    Course.Assignment a = c.getAssignmentByName(assign_name);
+                    a.show("Assignments");
+                    break;
+                case "8":
+                    course_name = ask(sc,"Course name?");
+                    assign_name = ask(sc,"assignment name?");
+                    c = i.getCourseByName(course_name);
                     i.EvaluateAssignment(c,assign_name,sc);
                     break;
-                case "7":
+                case "9":
                     course_name = ask(sc,"Course name?");
                     assign_name = ask(sc,"assignment name?");
                     i.showStudentScore(course_name,assign_name);
                     break;
-                case "8":
+                case "10":
                     return;
 
                 default:

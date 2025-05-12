@@ -58,6 +58,11 @@ public class Instructor extends User{
         return c;
     }
 
+    void showAssignments(String course_name){
+        Course c = getCourseByName(course_name);
+        c.show();
+    }
+
     void EvaluateAssignment(Course c, String name, Scanner sc){
         Course.Assignment a = c.getAssignmentByName(name);
         for(Map.Entry<String, Course.Assignment.SubmittedAssignment> e : a.submitted_assignment.entrySet()){
