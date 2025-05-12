@@ -1,3 +1,4 @@
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -60,11 +61,21 @@ public class Instructor extends User{
     void EvaluateAssignment(Course c, String name, Scanner sc){
         Course.Assignment a = c.getAssignmentByName(name);
         for(Map.Entry<String, Course.Assignment.SubmittedAssignment> e : a.submitted_assignment.entrySet()){
-            e.getValue().show("teacher");
-            String grade = e.getValue().setGrade(sc.nextLine());
-            Student s = e.getValue().student;
-            s.performance.put(c.course_name,e.getValue());
+            if(e.getValue().grade.equalsIgnoreCase("nil")){
+                e.getValue().show("teacher");
+                System.out.println("--Set Grade--");
+                String grade = e.getValue().setGrade(sc.nextLine());
+                Student s = e.getValue().student;
+                s.performance.put(c.course_name, e.getValue());
+            }
         }
+        System.out.println("All Submission has been submitted");
+    }
+
+    void showStudentScore (String course_name, String assignment_name){
+        Course c = getCourseByName(course_name);
+        Course.Assignment a = c.getAssignmentByName(assignment_name);
+        a.show("teacher");
     }
 
 

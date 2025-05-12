@@ -76,9 +76,11 @@ public class Main {
                     "1. show profile\n" +
                     "2. Create course\n"+
                     "3. Remove Course\n"+
-                    "4. Create Assignme\n"+
-                    "5. Show performance\n"+
-                    "6. Log out";
+                    "4. Create Assignment\n"+
+                    "5. remove Assignment\n"+
+                    "6. Evaluate Assignment\n"+
+                    "7. Show Student Score\n"+
+                    "8. Log out";
             String choose = ask(sc, question);
             switch(choose){
                 case "1":
@@ -87,7 +89,47 @@ public class Main {
                 case "2":
                     String course_name = ask(sc,"Course name?");
                     i.createCourse(course_name);
+                    break;
+                case "3":
+                    course_name = ask(sc,"Course name?");
+                    i.removeCourse(course_name);
+                    break;
+                case "4":
+                    course_name = ask(sc,"Course name?");
+                    String assign_name = ask(sc,"Set assignment name.");
+                    String Question = ask(sc,"Set question for your assignment");
+                    System.out.println("Set Due date:");
+                    System.out.println("year?");
+                    int year = sc.nextInt();
+                    System.out.println("Month number?");
+                    int month = sc.nextInt();
+                    System.out.println("Date?");
+                    int date = sc.nextInt();
+                    i.createAssignment(course_name,assign_name,Question,LocalDate.of(year,month,date));
+                    break;
+                    // Add exception handling
+                case "5":
+                    course_name = ask(sc,"Course name?");
+                    assign_name = ask(sc,"assignment name?");
+                    i.removeAssignment(course_name,assign_name);
+                    break;
 
+                case "6":
+                    course_name = ask(sc,"Course name?");
+                    assign_name = ask(sc,"assignment name?");
+                    Course c = i.getCourseByName(course_name);
+                    i.EvaluateAssignment(c,assign_name,sc);
+                    break;
+                case "7":
+                    course_name = ask(sc,"Course name?");
+                    assign_name = ask(sc,"assignment name?");
+                    i.showStudentScore(course_name,assign_name);
+                    break;
+                case "8":
+                    return;
+
+                default:
+                    System.out.println("Invalid Input!");
             }
         }
     }

@@ -66,6 +66,7 @@ public class Course {
         Assignment a = getAssignmentByName(name);
         if(a!=null){
             assignments.remove(a.name);
+            System.out.println("Assignment has been removed by name "+a.name);
         }
 
     }
@@ -133,6 +134,7 @@ public class Course {
             }
             void show(String any){
                 System.out.println("Student Name: "+student.username);
+                System.out.println("Submit at "+submit);
                 System.out.println("Question: "+question);
                 System.out.println("Answer:- ");
                 System.out.println(answer);

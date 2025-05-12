@@ -15,11 +15,11 @@ public class CourseManager {
     void removeCourse(Course c){
         c.status="removed by Instructor";
         courses.remove(c);
-        System.out.println("Course have been removed");
         for(Map.Entry<String,Student> e: c.enrolled.entrySet()){
             Student s = e.getValue();
             s.calibrateCourse();
         }
+        System.out.println("Course have been removed");
         // also calibrate with Student class
     }
 
