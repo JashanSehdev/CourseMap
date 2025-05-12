@@ -97,7 +97,7 @@ public class Course {
             System.out.println("Question:-");
             System.out.println(question);
             System.out.println("No. of Submissions: "+submitted_assignment.size());
-            System.out.println("Name   Submission Date    Answers    Grade");
+            System.out.println("Name   Submission Date   Grade");
             for(Map.Entry<String,SubmittedAssignment> e: submitted_assignment.entrySet()){
                 e.getValue().show();
             }
@@ -122,7 +122,7 @@ public class Course {
             }
 
             void show(){
-                System.out.println(student.username+"\t"+submit+"\t  "+answer+" ["+grade+"].");
+                System.out.println(student.username+"\t"+submit+"\t \t"+" ["+grade+"].");
             }
             void show(String any){
                 System.out.println("Student Name: "+student.username);
