@@ -196,6 +196,8 @@ public class Main {
                 } else if (user instanceof Instructor) {
                     instructor = (Instructor)user;
 
+                    instructor(auth, manager, sc, instructor);
+
                 }
 
 
