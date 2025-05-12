@@ -24,6 +24,7 @@ public class Instructor extends User{
         Course c = manager.createCourse(name);
         c.course_instructor=username; // setting course
         myCourse.put(name,c);
+        System.out.println("Course has been created by name "+c.course_name);
     }
 
     void removeCourse(String name){
@@ -56,6 +57,15 @@ public class Instructor extends User{
         return c;
     }
 
+    void EvaluateAssignment(Course c, String name, Scanner sc){
+        Course.Assignment a = c.getAssignmentByName(name);
+        for(Map.Entry<String, Course.Assignment.SubmittedAssignment> e : a.submitted_assignment.entrySet()){
+            e.getValue().show("teacher");
+            String grade = e.getValue().setGrade(sc.nextLine());
+            Student s = e.getValue().student;
+            s.performance.put(c.course_name,e.getValue());
+        }
+    }
 
 
 }

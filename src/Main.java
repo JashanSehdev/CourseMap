@@ -1,59 +1,168 @@
 import java.time.LocalDate;
 import java.util.*;
+
+
 public class Main {
-    static void register(AuthenticationManager auth){
-        auth.register("Jashan", "1234", "Instructor");
-        auth.register("Aarav", "pass123", "Student");
-        auth.register("Ishita", "hello321", "Instructor");
-        auth.register("Rohan", "rohan987", "Student");
-        auth.register("Meera", "meera@123", "Student");
-        auth.register("Karan", "karan!456", "Instructor");
-        auth.register("Priya", "priya789", "Student");
-        auth.register("Ananya", "ananya111", "Instructor");
 
+    static String ask(Scanner sc, String question) {
+        String answer;
+        System.out.println(question);
+        answer = sc.nextLine();
+        return answer;
     }
 
-    static void CreateCourse(Instructor instructor, String name){
-        instructor.createCourse(name);
-        instructor.show();
+
+    static void student(AuthenticationManager auth, CourseManager manager, Scanner sc, Student s) {
+
+        while(true){
+
+            String question = "Hi " + s.username + "\n " + "Type number corresponding to desired operation.\n" +
+                    "1. show profile\n" +
+                    "2. Enroll in course\n"+
+                    "3. show assignments\n"+
+                    "4. Submit Answer for Assignment\n"+
+                    "5. Show performance\n"+
+                    "6. Log out";
+            String choose = ask(sc, question);
+            switch (choose) {
+                case "1":
+                    s.show();
+                    break;
+
+                case "2":
+                    System.out.println("Available Courses:-");
+                    manager.show();
+                    String course_name = ask(sc, "Course name?");
+                    s.enroll(course_name);
+                    break;
+
+                case "3":
+                    course_name = ask(sc,"Course name?");
+                    Course c = s.getCourseByName(course_name);
+                    if(c!=null){
+                        c.show("Assignments");
+                    }
+                    break;
+
+                case "4":
+                    course_name = ask(sc,"Course name?");
+                    c = s.getCourseByName(course_name);
+                    if(c!=null){
+                        c.show("Assignments");
+                        String assignment = ask(sc,"which Assignment?");
+                        Course.Assignment a = c.getAssignmentByName(assignment);
+                        System.out.println(a.question);
+                        String answer = ask(sc,"Answer::");
+                        s.writeAnswer(c,assignment,answer);
+                    }
+                    break;
+
+                case "5":
+                    s.showPerformance();
+                    break;
+
+                case "6":
+                    return;
+
+                default:
+                    System.out.println("Invalid Input");
+            }
+        }
     }
 
-    static void CreateAssignment(Instructor instructor, String Course, String ass_name,String question){
-        instructor.createAssignment(Course,ass_name,question,LocalDate.of(2025,5,27));
+    static void instructor(AuthenticationManager auth, CourseManager manager, Scanner sc, Instructor i){
+        while(true){
+            String question = "Hi " + i.username + "\n " + "Type number corresponding to desired operation.\n" +
+                    "1. show profile\n" +
+                    "2. Create course\n"+
+                    "3. Remove Course\n"+
+                    "4. Create Assignme\n"+
+                    "5. Show performance\n"+
+                    "6. Log out";
+            String choose = ask(sc, question);
+            switch(choose){
+                case "1":
+                    i.show();
+                    break;
+                case "2":
+                    String course_name = ask(sc,"Course name?");
+                    i.createCourse(course_name);
+
+            }
+        }
     }
+
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Setting up main management classes
         CourseManager manager = new CourseManager();
         AuthenticationManager auth = new AuthenticationManager(manager);
+        String question;
+        String choose;
 
-        register(auth);
+        // test code
 
-        User in = auth.login("Jashan","1234","Instructor");
-        User st = auth.login("Aarav","pass123","Student");
-        Instructor instructor = (Instructor)in;
-        Student student  = (Student) st;
-
-        CreateCourse(instructor,"DSA");
-        CreateAssignment(instructor,"DSA","assignment1","Why is name DDD");
-
-        instructor.createAssignment("DSA","assignment 1","Who is your dad?",LocalDate.of(2025,5,27));
-
-        student.enroll("DSA");
+        manager.createCourse("java");
+        manager.createCourse("DSA");
+        manager.getCourseByName("DSA").createAssignment("assignment1","What is the most beautiful thing on earth?", LocalDate.of(2025,5,27));
+        manager.getCourseByName("DSA").createAssignment("assignment2","Date of Independence for India?", LocalDate.of(2025,5,27));
+        manager.getCourseByName("DSA").createAssignment("assignment3","Who is the Father of nation?", LocalDate.of(2025,5,27));
 
 
-        Course c = student.getCourseByName("DSA");
+        //Authentication
 
-        student.seeAssignmentByName(c,"assignment 1");
-        student.writeAnswer(c,"assignment 1","My answer is Simple");
-        c.getAssignmentByName("assignment 1").show("teacher");
 
-        //instructor.createAssignment("DSA","assignment 1","What is the Universe", LocalDate.of(2025,5,27));
+        Instructor instructor;
+        Student student;
+        User user = null;
+        while (true) {
+            question = "login or register";
+            choose = ask(sc, question);
+            switch (choose) {
 
+                case "login":
+                    String username = ask(sc, "What is your username?");
+                    String password = ask(sc, "What is your password?");
+                    String role = ask(sc, "Are you student or instructor?");
+                    user = auth.login(username, password, role);
+                    if (role.equalsIgnoreCase("student")) student = (Student) user;
+                    else if (role.equalsIgnoreCase("instructor")) instructor = (Instructor) user;
+                    break;
+
+                case "register":
+                    username = ask(sc, "What is your username?");
+                    password = ask(sc, "What is your password?");
+                    role = ask(sc, "Are you student or instructor?");
+                    auth.register(username, password, role);
+                    user = auth.login(username, password, role);
+                    if (role.equalsIgnoreCase("student")) student = (Student) user;
+                    else if (role.equalsIgnoreCase("instructor")) instructor = (Instructor) user;
+                    break;
+                default:
+                    System.out.println("invalid Input");
+
+            }
+
+
+                if (user instanceof Student) {
+                    student = (Student) user;
+
+                    student(auth, manager, sc, student);
+
+
+                } else if (user instanceof Instructor) {
+                    instructor = (Instructor)user;
+
+                }
+
+
+
+
+        }
 
 
     }
+
+
 }
-//        instructor.show();
-//        manager.show();
-//        instructor.removeCourse("DSA");
-//        instructor.show();
-//        manager.show();

@@ -22,10 +22,10 @@ public class Course {
         System.out.println("Course name: "+course_name);
         System.out.println("Course instructor: "+ course_instructor);
         System.out.println("Enrolled Student:-");
-        showAllAssignments();
+        showAllStudents();
     }
 
-    void showAllAssignments(){
+    void showAllStudents(){
         int i=1;
         for (Map.Entry<String,Student> e : enrolled.entrySet()){
             System.out.println(i+". "+e.getValue().username);
@@ -40,9 +40,14 @@ public class Course {
         for (Map.Entry<String,Assignment> e : assignments.entrySet()){
             System.out.println(i+". "+e.getValue().name);
         }
+
     }
 
     void createAssignment(String name, String question, LocalDate due){
+        if(assignments.containsKey(name)){
+            System.out.println("Assignment already created");
+            return;
+        }
         Assignment a = new Assignment(name,question,due);
         assignments.put(a.name,a);
         System.out.println("Assignment has been created by name "+ a.name);
@@ -114,8 +119,10 @@ public class Course {
             Student student;
             LocalDate submit;
             String grade="nil";
+            String assignment_name = name;
 
             SubmittedAssignment(String answer,Student S){
+
                 this.answer = answer;
                 this.student = S;
                 this.submit = LocalDate.now();
@@ -132,8 +139,9 @@ public class Course {
                 System.out.println("grades: " +grade);
             }
 
-            void setGrade(String grade){
+            String setGrade(String grade){
                 this.grade = grade;
+                return grade;
             }
 
 
