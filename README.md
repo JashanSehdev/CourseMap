@@ -61,18 +61,16 @@ java Main
 (Replace Main with the correct entry point class if named differently)
 
 📂 Folder Structure
-plaintext
-Copy
-Edit
-CourseMap/
-├── Instructor.java
-├── Student.java
-├── Course.java
-├── Assignment.java
-├── Submission.java
-├── Main.java
-├── README.md
-└── ...
+CourseMap/\n
+├── Instructor.java\n
+├── Student.java\n
+├── Course.java\n
+├── Assignment.java\n
+├── Submission.java\n
+├── Main.java\n
+├── README.md\n
+└── ...\n
+
 🧠 Core Concepts Demonstrated
 Use of ArrayList, HashMap, and custom classes for storage and access
 
