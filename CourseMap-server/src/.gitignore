@@ -1,0 +1,35 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Production
+/build
+/dist
+
+# Environment variables
+.env
+.env.local
+
+# Optional Common Files and Directories
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.rpt2_cache/
+.eslintcache
+.stylelintcache
+
+# OS and Editor files
+.DS_Store
+*.seed
+*.log
+*.tgz
+*.pac
+.eslintcache
+.prettierignore
+.vscode/
